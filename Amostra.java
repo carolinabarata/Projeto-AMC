@@ -38,6 +38,7 @@ public class Amostra {
         this.length = 0;
         this.fastMap = new HashMap<>();
     }
+
     /**
      * Este método recebe os valores de uma medição (índice, tempo e valor)
      * e adiciona este elemento à amostra (sob a forma de Node).
@@ -48,7 +49,7 @@ public class Amostra {
         n.next = first;
         first = n;
         List<Ponto> lista = fastMap.get(i);
-        if(lista == null){
+        if (lista == null) {
             lista = new ArrayList<>();
         }
         lista.add(new Ponto(t, v));
@@ -60,28 +61,51 @@ public class Amostra {
         length++;
     }
 
+    public void add2(int i, double t, double v) {
+        List<Ponto> lista = fastMap.get(i);
+        if (lista == null) {
+            lista = new ArrayList<>();
+        }
+        lista.add(new Ponto(t, v));
+        fastMap.put(i, lista);
 
 
-    public List<Ponto> slowIndice(int ind) {
         Node aux = first;
-        List<Ponto> lista = new ArrayList<>();
+        Node novo = new Node(i, t, v);
 
-        while (aux != null) {
-            if (aux.i == ind) {
-                Ponto ponto = new Ponto(aux.t, aux.v);
-                lista.add(ponto);
+        if(first == null) {
+            first = novo;
+            last = novo;
+            return;
+        }
+        else if (novo.i <= aux.i) {
+            novo.next = first;
+            first = novo;
+            return;
+        }
+        while(aux.next != null){
+            if(novo.i <= aux.next.i){
+                break;
             }
             aux = aux.next;
         }
-        return lista;
+        if(aux.next == null){
+            last = novo;
+        }
+
+        novo.next = aux.next;
+        aux.next =novo;
+        length++;
     }
 
-    public List<Ponto> fastIndice(int ind){
+
+
+    public List<Ponto> fastIndice(int ind) {
         return fastMap.get(ind);
     }
 
-    public List<Ponto> indice(int ind){
-        return fastIndice(ind);
+    public List<Ponto> indice(int ind) {
+        return slowindice(ind);
     }
 
     /**
@@ -139,10 +163,12 @@ public class Amostra {
         return lista;
     }
 
-    public List<Ponto> indiceSlow(int ind) {
+    public List<Ponto> slowindice(int ind) {
         Node aux = first;
         List<Ponto> lista = new ArrayList<>();
+        for (Ponto x : lista){
 
+        }
         while (aux != null) {
             if (aux.i == ind) {
                 Ponto ponto = new Ponto(aux.t, aux.v);
@@ -194,19 +220,25 @@ public class Amostra {
         length++;
     }
 
-//TODO verificar se isto funciona
-    public int calK(){
+    //TODO verificar se isto funciona
+    public int calK() {
         int soma = 1;
         Node aux = first;
-        if(first == null)
+        if (first == null)
             return 0;
-        while(aux.next != null){
-            if(aux.next.i != aux.i ){
+        while (aux.next != null) {
+            if (aux.next.i != aux.i) {
                 soma++;
             }
             aux = aux.next;
         }
         return soma;
     }
+
+    //se a amostra estiver ordenada por indices
+    public int calK2() {
+            return last.i + 1;
+    }
+
 
 }

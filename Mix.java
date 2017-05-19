@@ -40,13 +40,13 @@ public class Mix {
 
     //TODO verificar se isto funciona
     public double prob(Amostra amostra) {
-        int K = amostra.calK();
+        int K = amostra.calK2();
         double sum = 0;
         for (Gauss thetaj : theta) {
             double prod = 1;
             for(int i = 0; i < K; i++) {
                 List<Ponto> pontosi = amostra.indice(i);
-                prod = prod * probj(pontosi, thetaj);
+                prod = prod * probjgrande(pontosi, thetaj);
             }
             sum += thetaj.w * prod;
         }
@@ -88,6 +88,14 @@ public class Mix {
         return (1 / (Math.pow(2 * Math.PI * Math.pow(thetaj.sig, 2), pontos.size() / 2d))) * exp;
     }
 
+    public static double probjgrande(List<Ponto> pontos, Gauss thetaj) {
+        double sum = 0;
+        for (Ponto ponto : pontos) {
+            sum += sumAux(ponto, thetaj);
+        }
+        double exp = Math.exp(-1 / (2 * Math.pow(thetaj.sig, 2)) * sum);
+        return (1 / (Math.pow(2 * Math.PI * Math.pow(thetaj.sig, 2), pontos.size() / 2d))) * exp;
+    }
     /**
      * Este método retorna a lista de parâmetros atual.
      */
