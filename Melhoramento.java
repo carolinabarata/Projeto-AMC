@@ -6,8 +6,13 @@ import java.util.Random;
  * Created by carolina on 07/05/2017.
  */
 public class Melhoramento {
+    // nº de aquecimentos/arrefecimentos que vai ser feito
+    public static final int MAX_R = 100;
+    // probabilidade de aceitação de um bdj
+    public static final int PROB_ACEITACAO_INV = 100;
+    // valor mínimo do peso de uma gaussiana (w) para esta ser considerada
+    public static final double W_MINIMO = 0.005;
 
-    //TODO: ver o que o prof disse sobre desprezar o melhoramento dos parametros para uma gaussiana que tenha um peso mt pequeno
     public static Mix melhoraTudo(Amostra amostra, Mix theta) {
         Mix thetaK = theta;
         while (true) {
@@ -20,6 +25,10 @@ public class Melhoramento {
 
                 thetajKMaisUm = thetajKMaisUm.changew(melhoraw(amostra, thetaKMaisUm, thetaKMaisUm.getThetaJ(j)));
                 thetaKMaisUm.updateThetaj(j, thetajKMaisUm); // update thetaK
+                if(thetajKMaisUm.w <= W_MINIMO){
+                    System.out.println("A ignorar thetaj: " + j + " (w = " + thetajKMaisUm.w + ")");
+                    continue;
+                }
 
                 double amelhorado = Math.abs(melhoraa(amostra, thetaKMaisUm, thetaKMaisUm.getThetaJ(j)));
                 thetajKMaisUm = thetajKMaisUm.changea1(amelhorado);
@@ -118,43 +127,29 @@ public class Melhoramento {
         return Math.sqrt(num / den);
     }
 
-//TODO: alterar isto para recber o nº de arrefecimentos/aquecimentos desejado e a prob de aceitação
     // faz iterações (aquecimento/arrefecimento) para cada j
     private static Mix melhorabdj(Amostra amostra, Mix thetaAtual, int j) {
         // primeira iterada é feita com o valor antigo de b (o da iterada k anterior)
+        //TODO: alterar isto
         ArrefecimentoResult maxResultTetha = new ArrefecimentoResult(thetaAtual, Math.log(thetaAtual.prob(amostra)));
 
         Mix thetaAquecido = thetaAtual; // na primeira iteração não há aquecimento
-        for (int R = 1; R < 100; R++) {
+        for (int R = 1; R < MAX_R; R++) {
             ArrefecimentoResult newTetha = arrefecimento(thetaAquecido, j, amostra);
 
 
-            if (newTetha.logProbabilidade > maxResultTetha.logProbabilidade) {
-                // só verifica as condições se se tratar do b2 (como dito no enunciado)
-                if (!verificaCondicoes(thetaAtual, newTetha.theta, j)) {
-                    // reinicia o SA com b2j = b2j - 0.2
-                    R = 0;
-                    Gauss aux = newTetha.theta.getThetaJ(j);
-                    newTetha.theta.updateThetaj(j, aux.changeb2(aux.b2 - 0.2));
-                    thetaAquecido = newTetha.theta;
-                    continue;
-                } else {
-                    maxResultTetha = newTetha;
-                }
+            if (newTetha.probj > maxResultTetha.probj && verificaCondicoes(newTetha.theta, j)) {
+                maxResultTetha = newTetha;
             }
+
             thetaAquecido = aquecimento(thetaAtual, j, true);
             thetaAquecido = aquecimento(thetaAquecido, j, false);
 
         }
 
-        System.out.println("Logprob after cooling (j= " + j + ") " + maxResultTetha.logProbabilidade);
-        //TODO: mudar isto para voltar a fazer um aquecimento
-        // caso o bdj fique menor que 0 entao devolve a iterada anterior
-        if (maxResultTetha.theta.getThetaJ(j).b1 < 0 && maxResultTetha.theta.getThetaJ(j).b2 < 0) {
-            return thetaAtual;
-        } else {
-            return maxResultTetha.theta;
-        }
+        System.out.println("Logprob after cooling (j= " + j + ") " + maxResultTetha.probj);
+
+        return maxResultTetha.theta;
     }
 
     //Método que faz o processo de aquecimento
@@ -173,15 +168,16 @@ public class Melhoramento {
         thetajList.set(j - 1, newthetaj);
         return new Mix(thetajList.size(), thetajList);
     }
-//TODO: atualizar a classe- já não vai guardar o prob mas sim o probj?
-    //classe criada para podermos devolver o theta resultante de um processo de arrefecimento e respetiva probabilidade
+
+    //classe criada para podermos devolver o theta resultante de um processo de arrefecimento
+    // e respetiva probj para a gaussiana que está a ser melhorada no momento
     static class ArrefecimentoResult {
         Mix theta;
-        double logProbabilidade;
+        double probj;
 
-        public ArrefecimentoResult(Mix theta, double logProbabilidade) {
+        public ArrefecimentoResult(Mix theta, double probj) {
             this.theta = theta;
-            this.logProbabilidade = logProbabilidade;
+            this.probj = probj;
         }
     }
 
@@ -218,13 +214,13 @@ public class Melhoramento {
             double logProbVizinho = Math.log((thetaVizinho.prob(amostra)));
 
             // se a probabilidade do theta que contém o bdj vizinho for maior,
-            // atualizam-se valores do maximo. Se não, aceita-se o maximo anterior com logProbabilidade 1/10000
+            // atualizam-se valores do maximo. Se não, aceita-se o maximo anterior com probj 1/10000
             if (logProbVizinho > logProbMaximo) {
                 thetaMaximo = thetaVizinho;
                 b1jMaximo = vizinhob1j;
                 b2jMaximo = vizinhob2j;
                 logProbMaximo = logProbVizinho;
-            } else if (1 == new Random().nextInt(100)) {
+            } else if (1 == new Random().nextInt(PROB_ACEITACAO_INV)) {
                 return new ArrefecimentoResult(thetaMaximo, logProbMaximo);
             }
 
@@ -242,14 +238,13 @@ public class Melhoramento {
         }
     }
 
-//TODO: atualizar as condições- basta verificar, na iterada atual, que 0<b1<b2
-    private static boolean verificaCondicoes(Mix thetak, Mix thetakMaisUm, int j) {
-        double b1jk = thetak.getThetaJ(j).b1;
-        double b2jk = thetak.getThetaJ(j).b2;
-        double b1jkmaisUm = thetakMaisUm.getThetaJ(j).b1;
-        double b2jkmaisUm = thetakMaisUm.getThetaJ(j).b2;
+    private static boolean verificaCondicoes(Mix theta, int j) {
+        double b1j = theta.getThetaJ(j).b1;
+        double b2j = theta.getThetaJ(j).b2;
 
-        return 0 < b1jkmaisUm && b1jkmaisUm < b2jk && b1jk < b2jkmaisUm && b2jkmaisUm < 5;
+        return 0 < b1j &&
+                b1j < b2j &&
+                b2j < 5;
     }
 
 }
