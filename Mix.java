@@ -1,5 +1,4 @@
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,16 +42,20 @@ public class Mix {
         int K = amostra.calK2();
         double sum = 0;
         for (Gauss thetaj : theta) {
-            double prod = 1;
-            for(int i = 0; i < K; i++) {
-                List<Ponto> pontosi = amostra.indice(i);
-                prod = prod * probjgrande(pontosi, thetaj);
-            }
-            sum += thetaj.w * prod;
+            sum += thetaj.w * probj(amostra, thetaj);
         }
-
         return sum;
+    }
 
+    //TODO: passar este método para a gaussiana
+    public static double probj(Amostra amostra, Gauss thetaj) {
+        int K = amostra.calK2();
+        double prod = 1;
+        for(int i = 0; i < K; i++) {
+            List<Ponto> pontosi = amostra.indice(i);
+            prod = prod * probCondgrande(pontosi, thetaj);
+        }
+        return prod;
     }
 
     /**
@@ -79,7 +82,7 @@ public class Mix {
     /**
      * Método auxiliar do método prob
      */
-    public static double probj(List<Ponto> pontos, Gauss thetaj) {
+    public static double probCond(List<Ponto> pontos, Gauss thetaj) {
         double sum = 0;
         for (Ponto ponto : pontos) {
             sum += sumAux(ponto, thetaj);
@@ -88,7 +91,7 @@ public class Mix {
         return (1 / (Math.pow(2 * Math.PI * Math.pow(thetaj.sig, 2), pontos.size() / 2d))) * exp;
     }
 
-    public static double probjgrande(List<Ponto> pontos, Gauss thetaj) {
+    public static double probCondgrande(List<Ponto> pontos, Gauss thetaj) {
         double sum = 0;
         for (Ponto ponto : pontos) {
             sum += sumAux(ponto, thetaj);

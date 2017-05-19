@@ -76,11 +76,11 @@ public class Melhoramento {
     }
 
     public static double xij(List<Ponto> pontos, int M, Gauss thetaj, Mix theta) {
-        double num = thetaj.w * Mix.probj(pontos, thetaj);
+        double num = thetaj.w * Mix.probCond(pontos, thetaj);
         double den = 0;
         for (int u = 1; u <= M; u++) {
             Gauss thetau = theta.theta().get(u - 1);
-            den = den + thetau.w * Mix.probj(pontos, thetau);
+            den = den + thetau.w * Mix.probCond(pontos, thetau);
         }
         return (num * Math.exp(500)) / (den * Math.exp(500));
     }
@@ -138,7 +138,7 @@ public class Melhoramento {
             ArrefecimentoResult newTetha = arrefecimento(thetaAquecido, j, amostra);
 
 
-            if (newTetha.probj > maxResultTetha.probj && verificaCondicoes(newTetha.theta, j)) {
+            if (newTetha.logProbj > maxResultTetha.logProbj && verificaCondicoes(newTetha.theta, j)) {
                 maxResultTetha = newTetha;
             }
 
@@ -147,7 +147,7 @@ public class Melhoramento {
 
         }
 
-        System.out.println("Logprob after cooling (j= " + j + ") " + maxResultTetha.probj);
+        System.out.println("Probj after cooling (j= " + j + ") " + maxResultTetha.logProbj);
 
         return maxResultTetha.theta;
     }
@@ -170,14 +170,14 @@ public class Melhoramento {
     }
 
     //classe criada para podermos devolver o theta resultante de um processo de arrefecimento
-    // e respetiva probj para a gaussiana que está a ser melhorada no momento
+    // e respetiva probCond para a gaussiana que está a ser melhorada no momento
     static class ArrefecimentoResult {
         Mix theta;
-        double probj;
+        double logProbj;
 
-        public ArrefecimentoResult(Mix theta, double probj) {
+        public ArrefecimentoResult(Mix theta, double logProbj) {
             this.theta = theta;
-            this.probj = probj;
+            this.logProbj = logProbj;
         }
     }
 
@@ -189,8 +189,7 @@ public class Melhoramento {
                 b2jMaximo = theta.getThetaJ(j).b2;
 
         Mix thetaMaximo = theta;
-        //TODO: em vez de usar o prob, usar o probj
-        double logProbMaximo = Math.log(thetaMaximo.prob(amostra));
+        double logProbjMaximo = Math.log(Mix.probj(amostra, thetaMaximo.getThetaJ(j)));
 
         while (true) {
 
@@ -210,18 +209,17 @@ public class Melhoramento {
             thetajList.set(j - 1, thetajvizinho);
             Mix thetaVizinho = new Mix(thetajList.size(), thetajList);
 
-            //TODO: em vez de usar o prob, usar o probj
-            double logProbVizinho = Math.log((thetaVizinho.prob(amostra)));
+            double logProbVizinho = Math.log((Mix.probj(amostra, thetajvizinho)));
 
             // se a probabilidade do theta que contém o bdj vizinho for maior,
-            // atualizam-se valores do maximo. Se não, aceita-se o maximo anterior com probj 1/10000
-            if (logProbVizinho > logProbMaximo) {
+            // atualizam-se valores do maximo. Se não, aceita-se o maximo anterior com probCond 1/10000
+            if (logProbVizinho > logProbjMaximo) {
                 thetaMaximo = thetaVizinho;
                 b1jMaximo = vizinhob1j;
                 b2jMaximo = vizinhob2j;
-                logProbMaximo = logProbVizinho;
+                logProbjMaximo = logProbVizinho;
             } else if (1 == new Random().nextInt(PROB_ACEITACAO_INV)) {
-                return new ArrefecimentoResult(thetaMaximo, logProbMaximo);
+                return new ArrefecimentoResult(thetaMaximo, logProbjMaximo);
             }
 
         }
