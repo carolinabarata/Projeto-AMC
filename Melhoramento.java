@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -76,13 +78,13 @@ public class Melhoramento {
     }
 
     public static double xij(List<Ponto> pontos, int M, Gauss thetaj, Mix theta) {
-        double num = thetaj.w * Mix.probCond(pontos, thetaj);
-        double den = 0;
+        BigDecimal num = new BigDecimal(thetaj.w).multiply(Mix.probCond(pontos, thetaj));
+        BigDecimal den = BigDecimal.ZERO;
         for (int u = 1; u <= M; u++) {
             Gauss thetau = theta.theta().get(u - 1);
-            den = den + thetau.w * Mix.probCond(pontos, thetau);
+            den = den.add(new BigDecimal(thetau.w).multiply(Mix.probCond(pontos, thetau)));
         }
-        return (num * Math.exp(500)) / (den * Math.exp(500));
+        return num.divide(den, RoundingMode.HALF_DOWN).doubleValue();
     }
 
 
@@ -131,14 +133,15 @@ public class Melhoramento {
     private static Mix melhorabdj(Amostra amostra, Mix thetaAtual, int j) {
         // primeira iterada é feita com o valor antigo de b (o da iterada k anterior)
         //TODO: alterar isto
-        ArrefecimentoResult maxResultTetha = new ArrefecimentoResult(thetaAtual, Math.log(thetaAtual.prob(amostra)));
+        ArrefecimentoResult maxResultTetha = new ArrefecimentoResult(thetaAtual, thetaAtual.probj(amostra, thetaAtual.getThetaJ(j)));
 
         Mix thetaAquecido = thetaAtual; // na primeira iteração não há aquecimento
         for (int R = 1; R < MAX_R; R++) {
             ArrefecimentoResult newTetha = arrefecimento(thetaAquecido, j, amostra);
 
 
-            if (newTetha.logProbj > maxResultTetha.logProbj && verificaCondicoes(newTetha.theta, j)) {
+            if ((newTetha.probj.compareTo(maxResultTetha.probj) > 0) &&
+                    verificaCondicoes(newTetha.theta, j)) {
                 maxResultTetha = newTetha;
             }
 
@@ -147,7 +150,7 @@ public class Melhoramento {
 
         }
 
-        System.out.println("Probj after cooling (j= " + j + ") " + maxResultTetha.logProbj);
+        System.out.println("Probj after cooling (j= " + j + ") " + maxResultTetha.probj);
 
         return maxResultTetha.theta;
     }
@@ -173,11 +176,11 @@ public class Melhoramento {
     // e respetiva probCond para a gaussiana que está a ser melhorada no momento
     static class ArrefecimentoResult {
         Mix theta;
-        double logProbj;
+        BigDecimal probj;
 
-        public ArrefecimentoResult(Mix theta, double logProbj) {
+        public ArrefecimentoResult(Mix theta, BigDecimal probj) {
             this.theta = theta;
-            this.logProbj = logProbj;
+            this.probj = probj;
         }
     }
 
@@ -189,7 +192,7 @@ public class Melhoramento {
                 b2jMaximo = theta.getThetaJ(j).b2;
 
         Mix thetaMaximo = theta;
-        double logProbjMaximo = Math.log(Mix.probj(amostra, thetaMaximo.getThetaJ(j)));
+        BigDecimal probjMaximo = Mix.probj(amostra, thetaMaximo.getThetaJ(j));
 
         while (true) {
 
@@ -209,17 +212,17 @@ public class Melhoramento {
             thetajList.set(j - 1, thetajvizinho);
             Mix thetaVizinho = new Mix(thetajList.size(), thetajList);
 
-            double logProbVizinho = Math.log((Mix.probj(amostra, thetajvizinho)));
+            BigDecimal probjVizinho = Mix.probj(amostra, thetajvizinho);
 
             // se a probabilidade do theta que contém o bdj vizinho for maior,
             // atualizam-se valores do maximo. Se não, aceita-se o maximo anterior com probCond 1/10000
-            if (logProbVizinho > logProbjMaximo) {
+            if (probjVizinho.compareTo(probjMaximo) > 0) {
                 thetaMaximo = thetaVizinho;
                 b1jMaximo = vizinhob1j;
                 b2jMaximo = vizinhob2j;
-                logProbjMaximo = logProbVizinho;
+                probjMaximo = probjVizinho;
             } else if (1 == new Random().nextInt(PROB_ACEITACAO_INV)) {
-                return new ArrefecimentoResult(thetaMaximo, logProbjMaximo);
+                return new ArrefecimentoResult(thetaMaximo, probjMaximo);
             }
 
         }

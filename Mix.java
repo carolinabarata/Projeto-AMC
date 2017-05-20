@@ -1,4 +1,7 @@
 
+import org.nevec.rjm.BigDecimalMath;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -37,26 +40,31 @@ public class Mix {
                 '}';
     }
 
-    //TODO verificar se isto funciona
-    public double prob(Amostra amostra) {
-        int K = amostra.calK2();
-        double sum = 0;
-        for (Gauss thetaj : theta) {
-            sum += thetaj.w * probj(amostra, thetaj);
-        }
-        return sum;
-    }
-
     //TODO: passar este método para a gaussiana
-    public static double probj(Amostra amostra, Gauss thetaj) {
+    public static BigDecimal probj(Amostra amostra, Gauss thetaj) {
         int K = amostra.calK2();
-        double prod = 1;
+        BigDecimal prod = BigDecimal.ONE;
         for(int i = 0; i < K; i++) {
             List<Ponto> pontosi = amostra.indice(i);
-            prod = prod * probCondgrande(pontosi, thetaj);
+            prod = prod.multiply(probCond(pontosi, thetaj));
         }
         return prod;
     }
+
+    /**
+     * Método auxiliar do método prob
+     */
+    public static BigDecimal probCond(List<Ponto> pontos, Gauss thetaj) {
+        double sum = 0;
+        for (Ponto ponto : pontos) {
+            sum += sumAux(ponto, thetaj);
+        }
+        BigDecimal expoente = new BigDecimal(-1 / (2 * Math.pow(thetaj.sig, 2)) * sum);
+        BigDecimal exponencial = BigDecimalMath.exp(expoente);
+        BigDecimal den = new BigDecimal(1 / (Math.pow(2 * Math.PI * Math.pow(thetaj.sig, 2), pontos.size() / 2d)));
+        return den.multiply(exponencial);
+    }
+
 
     /**
      * Este método recebe uma lista de pontos (lista de elementos da classe Ponto),
@@ -79,26 +87,7 @@ public class Mix {
         return Math.pow(ponto.y - f(thetaj, ponto.t), 2);
     }
 
-    /**
-     * Método auxiliar do método prob
-     */
-    public static double probCond(List<Ponto> pontos, Gauss thetaj) {
-        double sum = 0;
-        for (Ponto ponto : pontos) {
-            sum += sumAux(ponto, thetaj);
-        }
-        double exp = Math.exp(-1 / (2 * Math.pow(thetaj.sig, 2)) * sum);
-        return (1 / (Math.pow(2 * Math.PI * Math.pow(thetaj.sig, 2), pontos.size() / 2d))) * exp;
-    }
 
-    public static double probCondgrande(List<Ponto> pontos, Gauss thetaj) {
-        double sum = 0;
-        for (Ponto ponto : pontos) {
-            sum += sumAux(ponto, thetaj);
-        }
-        double exp = Math.exp(-1 / (2 * Math.pow(thetaj.sig, 2)) * sum);
-        return (1 / (Math.pow(2 * Math.PI * Math.pow(thetaj.sig, 2), pontos.size() / 2d))) * exp;
-    }
     /**
      * Este método retorna a lista de parâmetros atual.
      */
