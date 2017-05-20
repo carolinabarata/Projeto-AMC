@@ -16,7 +16,7 @@ public class ReadAmostra {
 
             // such functional much map wow
             double[] lineInts = Arrays.stream(lineArr).mapToDouble(Double::parseDouble).toArray();
-            result.add2((int) lineInts[0], lineInts[1], lineInts[2]);
+            result.add((int) lineInts[0], lineInts[1], lineInts[2]);
 
         }
 

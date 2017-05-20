@@ -42,7 +42,7 @@ public class Mix {
 
     //TODO: passar este método para a gaussiana
     public static BigDecimal probj(Amostra amostra, Gauss thetaj) {
-        int K = amostra.calK2();
+        int K = amostra.calK();
         BigDecimal prod = BigDecimal.ONE;
         for(int i = 0; i < K; i++) {
             List<Ponto> pontosi = amostra.indice(i);
@@ -66,7 +66,7 @@ public class Mix {
     }
 
     public static double logProbj(Amostra amostra, Gauss thetaj){
-        int K = amostra.calK2();
+        int K = amostra.calK();
         double sum = 0;
         for(int i = 0 ; i < K; i++ ){
             List<Ponto> pontosi = amostra.indice(i);

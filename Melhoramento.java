@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public class Melhoramento {
     // nº de aquecimentos/arrefecimentos que vai ser feito
-    public static final int MAX_R = 1000;
+    public static final int MAX_R = 100;
     // probabilidade de aceitação de um bdj
     public static final int PROB_ACEITACAO_INV = 100;
     // valor mínimo do peso de uma gaussiana (w) para esta ser considerada
@@ -54,7 +54,9 @@ public class Melhoramento {
                 System.out.println("deltaB1: " + deltaB1);
                 System.out.println("deltaB2: " + deltaB2);
 
-                stop = stop && deltaB1 < 0.00001 && deltaB2 < 0.00001;
+                stop = stop &&
+                        deltaB1 < 0.00001 &&
+                        deltaB2 < 0.00001;
             }
 
             if (stop) {
@@ -66,7 +68,7 @@ public class Melhoramento {
     }
 
     public static double melhoraw(Amostra pessoas, Mix theta, Gauss thetaj) {
-        int K = pessoas.calK2();
+        int K = pessoas.calK();
 
         double soma = 0;
         for (int i = 0; i < K; i++) {
@@ -89,7 +91,7 @@ public class Melhoramento {
 
 
     public static double melhoraa(Amostra pessoas, Mix theta, Gauss thetaj) {
-        int K = pessoas.calK2();
+        int K = pessoas.calK();
         double num = 0;
         double den = 0;
         for (int i = 0; i < K; i++) {
@@ -110,8 +112,8 @@ public class Melhoramento {
         return num / den;
     }
 
-    public static double melhorasigma(Amostra pessoas, Mix theta, Gauss thetajK, Gauss thetajKPlus) {
-        int K = pessoas.calK2();
+    public static double melhorasigma   (Amostra pessoas, Mix theta, Gauss thetajK, Gauss thetajKPlus) {
+        int K = pessoas.calK();
         double num = 0;
         double den = 0;
         for (int i = 0; i < K; i++) {
@@ -140,6 +142,10 @@ public class Melhoramento {
             ArrefecimentoResult newTetha = arrefecimento(thetaAquecido, j, amostra);
 
 
+            //System.out.println("1- Probj new (j= " + j + ") " + newTetha.logprobj);
+            //System.out.println("2- Probj max (j= " + j + ") " + maxResultTetha.logprobj);
+
+
             if (newTetha.logprobj > maxResultTetha.logprobj &&
                     verificaCondicoes(newTetha.theta, j)) {
                 maxResultTetha = newTetha;
@@ -150,7 +156,7 @@ public class Melhoramento {
 
         }
 
-        System.out.println("Probj after cooling (j= " + j + ") " + maxResultTetha.logprobj);
+        //System.out.println("3- Probj after cooling (j= " + j + ") " + maxResultTetha.logprobj);
 
         return maxResultTetha.theta;
     }
@@ -206,6 +212,7 @@ public class Melhoramento {
             thetajvizinho = thetajatual.changeb1(vizinhob1j);
             thetajvizinho = thetajvizinho.changeb2(vizinhob2j);
 
+            //TODO: tirar isto
             //aqui cria-se um novo theta que tem a gaussiana j substituída por uma nova thetaj
             // que já contém o parâmetro b1 ou b2 vizinho
             List<Gauss> thetajList = new ArrayList<>(thetaMaximo.theta());
