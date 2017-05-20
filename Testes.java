@@ -22,7 +22,7 @@ public class Testes {
 
         Mix novamix = new Mix(listagauss);
 
-        Amostra amostra = Readers.readAmostra(new File("../EM20.csv"));
+        Amostra amostra = ReadersAndWriter.readAmostra(new File("../EM20.csv"));
 
         long startTime = System.currentTimeMillis();
 

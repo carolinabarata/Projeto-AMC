@@ -1,11 +1,9 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Readers {
+public class ReadersAndWriter {
 
     public static Amostra readAmostra(File file) throws Exception {
         BufferedReader CSVFile = new BufferedReader(new FileReader(file));
@@ -46,12 +44,16 @@ public class Readers {
         return new Mix(listaGauss);
     }
 
+    public static void writeMix(Mix mix, File file) throws IOException {
+        String mixString = "";
+        for (Gauss gauss : mix.theta()) {
+            mixString += "" + gauss.w + ";" + gauss.sig + ";" + gauss.a1 + ";" + gauss.a2 + ";" + gauss.b1 + ";" + gauss.b2 + "\n";
+        }
 
-    public static void main(String[] args) throws Exception {
-        File file = new File("/Users/carolina/Desktop/mixinicial.theta");
-        Mix mix = Readers.readMix(file);
-
-        System.out.println(mix);
-
+        Writer fileWriter = new BufferedWriter(new FileWriter(file));
+        fileWriter.write(mixString);
+        fileWriter.flush();
+        fileWriter.close();
     }
+
 }
