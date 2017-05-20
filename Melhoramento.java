@@ -19,7 +19,7 @@ public class Melhoramento {
         Mix thetaK = theta;
         while (true) {
             List<Gauss> thetajList = new ArrayList<>(thetaK.theta());
-            Mix thetaKMaisUm = new Mix(thetajList.size(), thetajList);
+            Mix thetaKMaisUm = new Mix(thetajList);
             boolean stop = true;
 
             for (int j = 1; j <= thetaK.M; j++) {
@@ -175,7 +175,7 @@ public class Melhoramento {
 
         List<Gauss> thetajList = new ArrayList<>(theta.theta());
         thetajList.set(j - 1, newthetaj);
-        return new Mix(thetajList.size(), thetajList);
+        return new Mix(thetajList);
     }
 
     //classe criada para podermos devolver o theta resultante de um processo de arrefecimento
@@ -217,7 +217,7 @@ public class Melhoramento {
             // que já contém o parâmetro b1 ou b2 vizinho
             List<Gauss> thetajList = new ArrayList<>(thetaMaximo.theta());
             thetajList.set(j - 1, thetajvizinho);
-            Mix thetaVizinho = new Mix(thetajList.size(), thetajList);
+            Mix thetaVizinho = new Mix(thetajList);
 
             double logprobjVizinho = Mix.logProbj(amostra, thetajvizinho);
 

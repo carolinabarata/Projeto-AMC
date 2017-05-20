@@ -21,9 +21,9 @@ public class Mix {
     /**
      * O construtor desta classe recebe o número de parâmetros (thetaj) M, e uma lista de parâmetros theta.
      */
-    public Mix(int M, List<Gauss> theta) {
+    public Mix(List<Gauss> theta) {
         this.theta = theta;
-        this.M = M;
+        this.M = theta.size();
     }
 
 

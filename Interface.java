@@ -90,7 +90,7 @@ public class Interface {
 				if (result == JFileChooser.APPROVE_OPTION) {
 					try {
 						File fi = fs.getSelectedFile();
-						Amostra amostra = ReadAmostra.read(fi.getAbsolutePath());
+						Amostra amostra = Readers.readAmostra(fi);
 						runner.amostra = amostra;
 
 						BufferedReader br = new BufferedReader(new FileReader(fi.getPath()));
