@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public class Melhoramento {
     // nº de aquecimentos/arrefecimentos que vai ser feito
-    public static final int MAX_R = 100;
+    public static final int MAX_R = 1000;
     // probabilidade de aceitação de um bdj
     public static final int PROB_ACEITACAO_INV = 100;
     // valor mínimo do peso de uma gaussiana (w) para esta ser considerada
@@ -133,14 +133,14 @@ public class Melhoramento {
     private static Mix melhorabdj(Amostra amostra, Mix thetaAtual, int j) {
         // primeira iterada é feita com o valor antigo de b (o da iterada k anterior)
         //TODO: alterar isto
-        ArrefecimentoResult maxResultTetha = new ArrefecimentoResult(thetaAtual, thetaAtual.probj(amostra, thetaAtual.getThetaJ(j)));
+        ArrefecimentoResult maxResultTetha = new ArrefecimentoResult(thetaAtual, thetaAtual.logProbj(amostra, thetaAtual.getThetaJ(j)));
 
         Mix thetaAquecido = thetaAtual; // na primeira iteração não há aquecimento
         for (int R = 1; R < MAX_R; R++) {
             ArrefecimentoResult newTetha = arrefecimento(thetaAquecido, j, amostra);
 
 
-            if ((newTetha.probj.compareTo(maxResultTetha.probj) > 0) &&
+            if (newTetha.logprobj > maxResultTetha.logprobj &&
                     verificaCondicoes(newTetha.theta, j)) {
                 maxResultTetha = newTetha;
             }
@@ -150,7 +150,7 @@ public class Melhoramento {
 
         }
 
-        System.out.println("Probj after cooling (j= " + j + ") " + maxResultTetha.probj);
+        System.out.println("Probj after cooling (j= " + j + ") " + maxResultTetha.logprobj);
 
         return maxResultTetha.theta;
     }
@@ -176,11 +176,11 @@ public class Melhoramento {
     // e respetiva probCond para a gaussiana que está a ser melhorada no momento
     static class ArrefecimentoResult {
         Mix theta;
-        BigDecimal probj;
+        double logprobj;
 
-        public ArrefecimentoResult(Mix theta, BigDecimal probj) {
+        public ArrefecimentoResult(Mix theta, double logprobj) {
             this.theta = theta;
-            this.probj = probj;
+            this.logprobj = logprobj;
         }
     }
 
@@ -192,7 +192,7 @@ public class Melhoramento {
                 b2jMaximo = theta.getThetaJ(j).b2;
 
         Mix thetaMaximo = theta;
-        BigDecimal probjMaximo = Mix.probj(amostra, thetaMaximo.getThetaJ(j));
+        double logprobjMaximo = Mix.logProbj(amostra, thetaMaximo.getThetaJ(j));
 
         while (true) {
 
@@ -212,17 +212,17 @@ public class Melhoramento {
             thetajList.set(j - 1, thetajvizinho);
             Mix thetaVizinho = new Mix(thetajList.size(), thetajList);
 
-            BigDecimal probjVizinho = Mix.probj(amostra, thetajvizinho);
+            double logprobjVizinho = Mix.logProbj(amostra, thetajvizinho);
 
             // se a probabilidade do theta que contém o bdj vizinho for maior,
             // atualizam-se valores do maximo. Se não, aceita-se o maximo anterior com probCond 1/10000
-            if (probjVizinho.compareTo(probjMaximo) > 0) {
+            if (logprobjVizinho > logprobjMaximo) {
                 thetaMaximo = thetaVizinho;
                 b1jMaximo = vizinhob1j;
                 b2jMaximo = vizinhob2j;
-                probjMaximo = probjVizinho;
+                logprobjMaximo = logprobjVizinho;
             } else if (1 == new Random().nextInt(PROB_ACEITACAO_INV)) {
-                return new ArrefecimentoResult(thetaMaximo, probjMaximo);
+                return new ArrefecimentoResult(thetaMaximo, logprobjMaximo);
             }
 
         }

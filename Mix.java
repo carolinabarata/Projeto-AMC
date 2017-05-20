@@ -65,6 +65,27 @@ public class Mix {
         return den.multiply(exponencial);
     }
 
+    public static double logProbj(Amostra amostra, Gauss thetaj){
+        int K = amostra.calK2();
+        double sum = 0;
+        for(int i = 0 ; i < K; i++ ){
+            List<Ponto> pontosi = amostra.indice(i);
+            double expoente = auxExpoente(pontosi, thetaj);
+            sum = sum + Math.log(1 / (Math.pow(2 * Math.PI * Math.pow(thetaj.sig, 2), pontosi.size() / 2d))) + expoente;
+        }
+        return sum;
+    }
+
+    public static double auxExpoente(List<Ponto> pontos, Gauss thetaj) {
+
+        double sum = 0;
+
+        for (Ponto ponto : pontos) {
+            sum += sumAux(ponto, thetaj);
+        }
+        return -1 / (2 * Math.pow(thetaj.sig, 2)) * sum;
+    }
+
 
     /**
      * Este método recebe uma lista de pontos (lista de elementos da classe Ponto),
