@@ -40,7 +40,11 @@ public class Mix {
                 '}';
     }
 
-    //TODO: passar este método para a gaussiana
+    /**
+     * Método auxiliar que calcula a probabilidade probj, utilizada no método que calcula o Xij.
+     * É utilizada a classe BigDecimal para não se obterem valores de zero quando temos valores de probabilidade
+     * muito pequenos
+     */
     public static BigDecimal probj(Amostra amostra, Gauss thetaj) {
         int K = amostra.calK();
         BigDecimal prod = BigDecimal.ONE;
@@ -52,7 +56,9 @@ public class Mix {
     }
 
     /**
-     * Método auxiliar do método prob
+     * Método auxiliar que calcula a probabilidade condicionada.
+     * É utilizada a classe BigDecimal para não se obterem valores de zero quando temos valores de probabilidade
+     * muito pequenos
      */
     public static BigDecimal probCond(List<Ponto> pontos, Gauss thetaj) {
         double sum = 0;
@@ -65,6 +71,15 @@ public class Mix {
         return den.multiply(exponencial);
     }
 
+    /**
+     * Método auxiliar que calcula o logaritmo da probabilidade probj, mencionada acima,
+     * e que vai ser utilizado apenas no método que melhora os b's.
+     * Este método foi criado para eliminar a exponencial existente na fórmula original,
+     * pois como eram usados BigDecimal, a exponencial para esta classe torna-se muito lenta,
+     * e como essa função era chamada muitas vezes dentro do método que melhora os parâmetros b,
+     * foi preciso otimizar o método a uilizar.
+     * Neste método já não é necessário calcular a exponencial
+     */
     public static double logProbj(Amostra amostra, Gauss thetaj){
         int K = amostra.calK();
         double sum = 0;
@@ -76,6 +91,9 @@ public class Mix {
         return sum;
     }
 
+    /**
+     * Método auxiliar do método logProbj
+     */
     public static double auxExpoente(List<Ponto> pontos, Gauss thetaj) {
 
         double sum = 0;
@@ -87,14 +105,9 @@ public class Mix {
     }
 
 
-    /**
-     * Este método recebe uma lista de pontos (lista de elementos da classe Ponto),
-     * que representam os dados de um paciente ao longo do tempo,
-     * e determina a probabilidade dessa lista de pontos ser observada pela mistura(theta).
-     */
 
     /**
-     * Método auxiliar do método prob
+     * Método auxiliar do método probCond
      */
     public static double f(Gauss thetaj, double t) {
         return thetaj.a1 * Math.exp(-thetaj.b1 * t) +
@@ -102,7 +115,7 @@ public class Mix {
     }
 
     /**
-     * Método auxiliar do método prob
+     * Método auxiliar do método probCond
      */
     private static double sumAux(Ponto ponto, Gauss thetaj) {
         return Math.pow(ponto.y - f(thetaj, ponto.t), 2);

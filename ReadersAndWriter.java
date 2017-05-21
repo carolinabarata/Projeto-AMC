@@ -5,6 +5,12 @@ import java.util.List;
 
 public class ReadersAndWriter {
 
+    /**
+     * Método que permite ler o ficheiro que contém a Amostra.
+     * O ficheiro tem de ter a seguinte estrutura:
+     * Cada linha contém um valor da amostra que contém, separado por ponto e vírgula e pela ordem referida:
+     * índice, tempo e valor
+     */
     public static Amostra readAmostra(File file) throws Exception {
         BufferedReader CSVFile = new BufferedReader(new FileReader(file));
         Amostra result = new Amostra();
@@ -27,8 +33,11 @@ public class ReadersAndWriter {
         CSVFile.close();
         return result;
     }
-
-    //ordem dos parâmetros de um theta: w, sig, a1, a2, b1, b2
+    /**
+     * Método que permite ler o ficheiro que contém uma Mix. O ficheiro tem de ter a seguinte estrutura:
+     * Cada linha representa os parâmetros de uma gaussiana. Em cada linha, os parâmetros encontram-se seprarados
+     * por ponto e vírgula e apresentam a seguinte ordem: w, sigma, a1, a2, b1, b2.
+     */
     public static Mix readMix(File file) throws Exception {
         BufferedReader thetaFile = new BufferedReader(new FileReader(file));
         List<Gauss> listaGauss = new ArrayList<>();
@@ -50,6 +59,11 @@ public class ReadersAndWriter {
         return new Mix(listaGauss);
     }
 
+    /**
+     * Método que permite escrever uma Mix para um ficheiro. O ficheiro vai apresentar a seguinte estrutura:
+     * Cada linha representa os parâmetros de uma gaussiana. Em cada linha, os parâmetros encontram-se seprarados
+     * por ponto e vírgula e apresentam a seguinte ordem: w, sigma, a1, a2, b1, b2.
+     */
     public static void writeMix(Mix mix, File file) throws IOException {
         String mixString = "";
         for (Gauss gauss : mix.theta()) {

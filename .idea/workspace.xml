@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="839379f7-c1d1-4c8d-b948-d0389116bc93" name="Default" comment="Habemus Reader!">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Amostra.java" afterPath="$PROJECT_DIR$/Amostra.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gauss.java" afterPath="$PROJECT_DIR$/Gauss.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Melhoramento.java" afterPath="$PROJECT_DIR$/Melhoramento.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Mix.java" afterPath="$PROJECT_DIR$/Mix.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ReadersAndWriter.java" afterPath="$PROJECT_DIR$/ReadersAndWriter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Runner.java" afterPath="$PROJECT_DIR$/Runner.java" />
     </list>
@@ -27,8 +23,8 @@
       <file leaf-file-name="ReadersAndWriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ReadersAndWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="39" column="13" lean-forward="false" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+            <state relative-caret-position="885">
+              <caret line="62" column="86" lean-forward="false" selection-start-line="62" selection-start-column="86" selection-end-line="62" selection-end-column="86" />
               <folding />
             </state>
           </provider>
@@ -37,8 +33,8 @@
       <file leaf-file-name="Interface.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Interface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13">
-              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+            <state relative-caret-position="223">
+              <caret line="38" column="7" lean-forward="true" selection-start-line="36" selection-start-column="4" selection-end-line="38" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -57,7 +53,7 @@
       <file leaf-file-name="Testes.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Testes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
+            <state relative-caret-position="495">
               <caret line="35" column="37" lean-forward="true" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="37" />
               <folding />
             </state>
@@ -67,8 +63,8 @@
       <file leaf-file-name="Melhoramento.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Melhoramento.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4560">
-              <caret line="308" column="56" lean-forward="false" selection-start-line="308" selection-start-column="56" selection-end-line="308" selection-end-column="56" />
+            <state relative-caret-position="240">
+              <caret line="20" column="7" lean-forward="true" selection-start-line="17" selection-start-column="4" selection-end-line="20" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -77,8 +73,8 @@
       <file leaf-file-name="Mix.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Mix.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="120" column="7" lean-forward="true" selection-start-line="118" selection-start-column="4" selection-end-line="120" selection-end-column="7" />
+            <state relative-caret-position="585">
+              <caret line="42" column="7" lean-forward="true" selection-start-line="42" selection-start-column="7" selection-end-line="42" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -120,8 +116,8 @@
       <file leaf-file-name="Runner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Runner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="8" lean-forward="false" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+            <state relative-caret-position="285">
+              <caret line="19" column="70" lean-forward="false" selection-start-line="19" selection-start-column="70" selection-end-line="19" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -184,17 +180,17 @@
         <option value="$PROJECT_DIR$/Amostra2.java" />
         <option value="$PROJECT_DIR$/AmostraOld.java" />
         <option value="$PROJECT_DIR$/ReadAmostra.java" />
-        <option value="$PROJECT_DIR$/Mix.java" />
         <option value="$PROJECT_DIR$/Testes.java" />
         <option value="$PROJECT_DIR$/org/nevec/rjm/BigIntegerPoly.java" />
         <option value="$PROJECT_DIR$/Readers.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/Amostra.java" />
-        <option value="$PROJECT_DIR$/ReadersAndWriter.java" />
         <option value="$PROJECT_DIR$/Gauss.java" />
         <option value="$PROJECT_DIR$/Interface.java" />
-        <option value="$PROJECT_DIR$/Runner.java" />
         <option value="$PROJECT_DIR$/Melhoramento.java" />
+        <option value="$PROJECT_DIR$/ReadersAndWriter.java" />
+        <option value="$PROJECT_DIR$/Runner.java" />
+        <option value="$PROJECT_DIR$/Mix.java" />
       </list>
     </option>
   </component>
@@ -751,12 +747,12 @@
       <workItem from="1495203087811" duration="12524000" />
       <workItem from="1495298477966" duration="2394000" />
       <workItem from="1495305413328" duration="15779000" />
-      <workItem from="1495362905248" duration="11399000" />
+      <workItem from="1495362905248" duration="12674000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91060000" />
+    <option name="totallyTimeSpent" value="92335000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -930,14 +926,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Amostra.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="79" column="43" lean-forward="false" selection-start-line="79" selection-start-column="43" selection-end-line="79" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Gauss.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="915">
@@ -965,52 +953,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ReadersAndWriter.java">
+    <entry file="file://$PROJECT_DIR$/Amostra.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="39" column="13" lean-forward="false" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Testes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="35" column="37" lean-forward="true" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="37" />
+        <state relative-caret-position="1050">
+          <caret line="79" column="43" lean-forward="false" selection-start-line="79" selection-start-column="43" selection-end-line="79" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Interface.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state relative-caret-position="223">
+          <caret line="38" column="7" lean-forward="true" selection-start-line="36" selection-start-column="4" selection-end-line="38" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ReadersAndWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="885">
+          <caret line="62" column="86" lean-forward="false" selection-start-line="62" selection-start-column="86" selection-end-line="62" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Testes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="35" column="37" lean-forward="true" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Melhoramento.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="20" column="7" lean-forward="true" selection-start-line="17" selection-start-column="4" selection-end-line="20" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Runner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="8" lean-forward="false" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+        <state relative-caret-position="285">
+          <caret line="19" column="70" lean-forward="false" selection-start-line="19" selection-start-column="70" selection-end-line="19" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Melhoramento.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4560">
-          <caret line="308" column="56" lean-forward="false" selection-start-line="308" selection-start-column="56" selection-end-line="308" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Mix.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="120" column="7" lean-forward="true" selection-start-line="118" selection-start-column="4" selection-end-line="120" selection-end-column="7" />
+        <state relative-caret-position="585">
+          <caret line="42" column="7" lean-forward="true" selection-start-line="42" selection-start-column="7" selection-end-line="42" selection-end-column="7" />
           <folding />
         </state>
       </provider>
