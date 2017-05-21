@@ -64,14 +64,16 @@ public class Amostra {
 
     /**
      * Este método recebe uma posição, e devolve um array com a medição correspondente a essa posição
-     * (índice, tempo e valor). É considerado que a primeira posição da AmostraOldé a posição 1.
-     * No caso de a posição dada não existir na Amostra, é devolvido o array com todas as posições iguais a -1.
+     * (índice, tempo e valor). É considerado que a primeira posição da Amostra a posição 0.
      */
     //assumindo que a 1a posição é a zero
-    public Ponto element(int posicao) {
-        List<Ponto> lista = new ArrayList<>();
-        for (List<Ponto> pessoa : amostra.values()) {
-            lista.addAll(pessoa);
+    public double[] element(int posicao) {
+        List<double[]> lista = new ArrayList<>();
+        for (Map.Entry<Integer, List<Ponto>> entry : amostra.entrySet()) {
+            for(Ponto ponto : entry.getValue()){
+                double[] vetor = {entry.getKey(), ponto.t, ponto.y};
+                lista.add(vetor);
+            }
         }
         return lista.get(posicao);
     }

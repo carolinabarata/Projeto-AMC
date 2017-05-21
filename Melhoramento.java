@@ -73,6 +73,8 @@ public class Melhoramento {
                 //Melhora-se os parâmetros bdj e este método devolve theta já atualizado com estes novos valores
                 thetaKMaisUm = melhorabdj(amostra, thetaKMaisUm, j);
 
+                thetajKMaisUm = thetaKMaisUm.getThetaJ(j);
+
                 //Melhora-se o sigmaj e atualiza-se este valor na gaussiana j
                 thetajKMaisUm = thetajKMaisUm.changesigma(melhorasigmaj(amostra, thetaK, thetaK.getThetaJ(j), thetajKMaisUm));
 
