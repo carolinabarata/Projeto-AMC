@@ -13,6 +13,9 @@ public class ReadersAndWriter {
 
         String dataRow;
         while ((dataRow = CSVFile.readLine()) != null) {
+            if(dataRow.isEmpty() ){
+                continue;
+            }
             String[] lineArray = dataRow.split(";");
 
             // such functional much map wow
@@ -32,6 +35,9 @@ public class ReadersAndWriter {
 
         String dataRow;
         while ((dataRow = thetaFile.readLine()) != null) {
+            if(dataRow.isEmpty() ){
+                continue;
+            }
             String[] lineArray = dataRow.split(";");
 
             // such functional much map wow

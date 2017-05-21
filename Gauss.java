@@ -31,27 +31,44 @@ public class Gauss {
                 ", b2=" + b2 +
                 '}';
     }
-
+    /**
+     * Método construtor que altera o parâmetro b1 da gaussiana.
+     */
     public Gauss changeb1(double newB1) {
         return new Gauss(w, sig, a1, a2, newB1, b2);
     }
 
+    /**
+     * Método construtor que altera o parâmetro b2 da gaussiana.
+     */
     public Gauss changeb2(double newB2) {
         return new Gauss(w, sig, a1, a2, b1, newB2);
     }
 
+    /**
+     * Método construtor que altera o parâmetro w da gaussiana.
+     */
     public Gauss changew(double newW) {
         return new Gauss(newW, sig, a1, a2, b1, b2);
     }
 
+    /**
+     * Método construtor que altera o parâmetro sigma da gaussiana.
+     */
     public Gauss changesigma(double newSigma) {
         return new Gauss(w, newSigma, a1, a2, b1, b2);
     }
 
+    /**
+     * Método construtor que altera o parâmetro a1 da gaussiana.
+     */
     public Gauss changea1(double newA1) {
         return new Gauss(w, sig, newA1, a2, b1, b2);
     }
 
+    /**
+     * Método construtor que altera o parâmetro a2 da gaussiana.
+     */
     public Gauss changea2(double newA2) {
         return new Gauss(w, sig, a1, newA2, b1, b2);
     }

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by carolina on 19/05/2017.
+ * Esta classe foi implementada com um HashMap de listas de pontos (lista da classe Ponto),
+ * em que cada elemento do HashMap respresenta um índice, ou seja uma pessoa.
+ * Cada lista de pontos correspondentes a um índice representam assim as medições dessa pessoa
  */
 public class Amostra {
     Map<Integer, List<Ponto>> amostra;
@@ -17,7 +19,11 @@ public class Amostra {
         this.amostra = new HashMap<>();
     }
 
-
+    /**
+     * Este método recebe os valores de uma medição (índice, tempo e valor)
+     * e adiciona este elemento à amostra.
+     * A inserção do novo elemento é feita de acordo com o índice. É adicionada à lista de pontos do índice respetivo
+     */
     public void add(int i, double t, double v) {
 
         List<Ponto> pessoai = amostra.get(i);
@@ -28,6 +34,9 @@ public class Amostra {
         pessoai.add(new Ponto(t, v));
     }
 
+    /**
+     * Este método devolve o comprimento da Amostra.
+     */
     public int length() {
         int sum = 0;
         for (List<Ponto> pessoa : amostra.values()) {
@@ -36,14 +45,28 @@ public class Amostra {
         return sum;
     }
 
+    /**
+     * Este método recebe um índice, e devolve uma lista de pontos, correspondentes a esse índice.
+     */
     public List<Ponto> indice(int i) {
         return amostra.get(i);
     }
 
+    /**
+     * Este método calcula o número de índices diferentes existentes na amostra, ou seja,
+     * o número de pessoas (K).
+     */
     public int calK() {
         return amostra.size();
     }
 
+
+
+    /**
+     * Este método recebe uma posição, e devolve um array com a medição correspondente a essa posição
+     * (índice, tempo e valor). É considerado que a primeira posição da AmostraOldé a posição 1.
+     * No caso de a posição dada não existir na Amostra, é devolvido o array com todas as posições iguais a -1.
+     */
     //assumindo que a 1a posição é a zero
     public Ponto element(int posicao) {
         List<Ponto> lista = new ArrayList<>();
@@ -53,6 +76,9 @@ public class Amostra {
         return lista.get(posicao);
     }
 
+    /**
+     * Este método recebe uma Amostra other e adiciona esta Amostra à já existente.
+     */
     public void join(Amostra other){
         for(int indice = 0; indice < other.calK(); indice++){
             List<Ponto> pontosOutro = other.indice(indice);
